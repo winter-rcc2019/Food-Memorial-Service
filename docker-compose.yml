@@ -3,20 +3,24 @@ services:
 
   client:
     build: ./client
-    container_name: winter-rcc_cliant
+    container_name: winter-rcc_client
     ports:
       - 8080:8080
     volumes:
-      - ./client:/vue/src/app
+      - ./client:/app
     command: yarn serve
 
   server:
-    links:
-      - mysql
     build: ./server
+    depends_on:
+      - mysql
     container_name: winter-rcc_api
     ports:
       - 8888:8888
+    environment:
+      MYSQL_DB_HOST: mysql
+      MYSQL_DB: food_memory
+      MYSQL_PORT: 3306
     volumes:
       - ./server:/go/src/api
   
@@ -33,6 +37,8 @@ services:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci --skip-character-set-client-handshake
     volumes:
       - mysql_data:/var/lib/mysql
-    
+      - ./mysql/sqls:/docker-entrypoint-initdb.d
+
 volumes:
   mysql_data:
+    driver: local
