@@ -1,7 +1,7 @@
-package mysql
+package db
 
 import (
-	"databesa/sql"
+	"database/sql"
 	"fmt"
 	"os"
 	"string"
