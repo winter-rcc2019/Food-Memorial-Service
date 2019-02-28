@@ -1,7 +1,7 @@
 # 開発環境
-FROM golang:1.11
+FROM golang:1.11.5
 
-WORKDIR /api
+WORKDIR /go/src/api
 COPY . .
 ENV GO111MODULE=on
 
