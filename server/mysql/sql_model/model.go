@@ -9,7 +9,7 @@ import (
 
 type Memory struct {
 	//ID        	int       `json:"id"`
-	UUID      	string    	`json:"uuid"`
+	//UUID      	string    	`json:"uuid"` //IRANAIYO
 	Image		File		`json:"image"`
 	Comment		string    	`json:"comment"`
 	User_Name	string    	`json:"user_name"`
