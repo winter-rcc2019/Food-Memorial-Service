@@ -5,6 +5,7 @@
       v-on:vdropzone-removed-file="removeEvent"
     ></vue-dropzone>
   </div>
+
 </template>
 
 <script>

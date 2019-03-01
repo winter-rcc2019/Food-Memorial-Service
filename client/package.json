@@ -10,6 +10,7 @@
   "dependencies": {
     "ajv": "^6.9.2",
     "axios": "^0.18.0",
+    "element-ui": "^2.5.4",
     "vue": "^2.5.17",
     "vue2-dropzone": "^3.5.2"
   },
