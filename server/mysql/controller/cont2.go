@@ -15,11 +15,13 @@ import (
 
 //複数のレコード取得
 func GetFoods(w http.ResponseWriter, r *http.Request, c *gin.Context) {
+	food_UUID := c.Params("uuid")
+	w := c.Writer
 
 
 	food.ID = postform("id")
 	//food.UUID = PostForm("uuid")
-	food.Images  = c.PostForm("images")
+	food.Image_ID  = c.PostForm("images")
 	food.Comment = c.PostForm("comment")
 	food.User_Name = c.PostForm("user_nam")
 	food.User_ID = strconv.Atoi (c.PostForm("user_id"))
@@ -40,7 +42,7 @@ func GetFoods(w http.ResponseWriter, r *http.Request, c *gin.Context) {
 
 // GetFood は path に含まれる uuid に一致する foods テーブルの レコードを返す
 //１レコード取得
-func GetFood(c *gin.Context) {
+func GetFood(c *gin.Context, w http.ResponseWriter) {
 	food_UUID := c.Params("uuid")
 	w := c.Writer
 	//exist, err := sql_model.CheckFoodExist(food_UUID)
@@ -108,7 +110,7 @@ func CreateFood(c *gin.Context) {
 }
 
 //レコード更新
-func PutFood(c *gin.Context) {
+func PutFood(c *gin.Context, w http.ResponseWriter) {
 	food_UUID := c.Params("uuid")
 	w := c.Writer
 	//exist, err := sql_model.CheckFoodExist(food_UUID)
