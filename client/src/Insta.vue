@@ -1,5 +1,5 @@
 <template>
-  <div class="data">
+  <div id="inin">
 
   <el-container>
     <el-header>

@@ -19,4 +19,4 @@ new Vue({
 }).$mount('#toptop')
 new Vue({
   render: h => h(Insta),
-}).$mount()
+}).$mount('#inin')

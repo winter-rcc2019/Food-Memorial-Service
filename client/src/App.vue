@@ -12,13 +12,7 @@ import Data from './components/Data.vue'
 
 export default {
   
-  name: 'app',
-  /*
-  components: {
-    
-  },
-  */
-  
+  name: 'app',  
   components:{
     HelloWorld,
     Data
