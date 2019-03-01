@@ -16,8 +16,7 @@ new Vue({
 
 new Vue({
   render: h => h(Top),
-}).$mount()
-
+}).$mount('#toptop')
 new Vue({
   render: h => h(Insta),
 }).$mount()
