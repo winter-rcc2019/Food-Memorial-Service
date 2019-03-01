@@ -29,16 +29,17 @@ func main() {
 	// 追加!!
 	r.Use(static.Serve("/", static.LocalFile("./images", true)))
 
-	r.GET("/images", handler.List)
-	images_post := r.Group("/images")
+	r.GET("/images/photo", handler.List)
+	images_post := r.Group("")
 	{
-		images_post.POST("/images", handler.Upload)
-		images_post.POST("/images", controller.CreateFood)
+		images_post.POST("/images/photo", handler.Upload)
+		images_post.POST("/images/data", controller.CreateFood)
 	}
-	images_delete := r.Group("/images")
+	images_delete := r.Group("")
 	{
-		images_delete.DELETE("/images/:uuid", handler.Delete)
-		images_delete.DELETE("/images/:uuid", controller.DeleteFood)
+		images_delete.DELETE("/images/photo/:uuid", handler.Delete)
+		images_delete.DELETE("/images/data/:uuid", controller.DeleteFood)
 	}
+
 	r.Run(":8888")
 }

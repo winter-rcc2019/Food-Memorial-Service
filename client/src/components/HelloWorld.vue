@@ -12,7 +12,6 @@
 import axios from 'axios'
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
-
 export default {
   name: 'HelloWorld',
   data: function () {
@@ -28,11 +27,11 @@ export default {
     vueDropzone: vue2Dropzone
   },
   mounted () {
-    axios.get('http://localhost:8888/images').then(res => {
+    axios.get('http://localhost:8888/images/photo').then(res => {
       res.data.forEach(res => {
         let filename = res.path.replace('http://localhost:8888/', '')
         let id = filename.replace('.png', '')
-        var file = {size: res.size, name: filename, type: "image/png", upload: {uuid: id}}
+        var file = {size: res.size, name: filename, type: "image/photo/png", upload: {uuid: id}}
         this.$refs.myVueDropzone.manuallyAddFile(file, res.path)
       })
     }).catch(err => {
@@ -44,7 +43,7 @@ export default {
       formData.append('uuid', file.upload.uuid)
     },
     removeEvent: function (file, error, xhr) {
-      axios.delete(`http://localhost:8888/images/${file.upload.uuid}`).then(res => {
+      axios.delete(`http://localhost:8888/images/photo/${file.upload.uuid}`).then(res => {
         console.log(res.data)
       }).catch(err => {
         console.error(err)

@@ -25,7 +25,8 @@ func GetFoods(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetFood は path に含まれる uuid に一致する foods テーブルの レコードを返す
-func GetFood(c *gin.Context, w http.ResponseWriter) {
+func GetFood(c *gin.Context) {
+	w := c.Writer
 	food_UUID := c.Param("uuid")
 	//exist, err := sql_model.CheckFoodExist(food_UUID)
 	//if err != nil {
@@ -53,7 +54,7 @@ func CreateFood(c *gin.Context) {
 	food.User_Name = c.PostForm("user_name")
 	food.User_ID, _ = strconv.Atoi(c.PostForm("user_id"))
 	food.Reply = c.PostFormMap("reply")
-	engine, _ := xorm.NewEngine("mysql","root:password@/note")
+	engine, _ := xorm.NewEngine("mysql","root:password@/food_memory")
 	engine.Insert(food)
 	insertID, err := sql_model.CreateFood(&food)
 	if err != nil {

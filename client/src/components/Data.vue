@@ -20,11 +20,11 @@
         <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
         <el-col :span="8"><div class="grid-content bg-purple-light">
           <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="10em" class="demo-ruleForm">
-            <el-form-item label="ユーザー名" prop="userName">
-              <el-input v-model="ruleForm.name"></el-input>
+            <el-form-item label="ユーザー名" prop="user_name">
+              <el-input v-model="ruleForm.user_name"></el-input>
             </el-form-item>
-            <el-form-item label="ユーザーID" prop="userId">
-              <el-input v-model="ruleForm.id"></el-input>
+            <el-form-item label="ユーザーID" prop="user_id">
+              <el-input v-model="ruleForm.user_id"></el-input>
             </el-form-item>
             <el-form-item label="画像アップロード">
               <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"
@@ -32,8 +32,8 @@
                 v-on:vdropzone-removed-file="removeEvent"
               ></vue-dropzone>
             </el-form-item>
-            <el-form-item label="概要" prop="desc">
-              <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+            <el-form-item label="概要" prop="comment">
+              <el-input type="textarea" v-model="ruleForm.comment"></el-input>
             </el-form-item>
             <el-form-item>
               <el-button type="primary" @click="submitForm('ruleForm')">投稿</el-button>
@@ -58,23 +58,23 @@
     data() {
       return {
         ruleForm: {
-          userName: '',
-          userId: '',
-          desc: ''
+          user_name: '',
+          user_id: '',
+          comment: ''
         },
         rules: {
-          userName: [
+          user_name: [
             { required: true, message: 'Please input Activity name', trigger: 'blur' }
           ],
-          userId: [
+          user_id: [
             { required: true, message: 'Please input Activity name', trigger: 'blur' }
           ],
-          desc: [
+          comment: [
             { required: true, message: 'Please input activity form', trigger: 'blur' }
           ]
         },
         dropzoneOptions: {
-          url: 'http://localhost:8888/images',
+          url: 'http://localhost:8888/images/photo',
           method: 'post',
           addRemoveLinks: 'true'
         }
@@ -84,8 +84,8 @@
       vueDropzone: vue2Dropzone
     },
     methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
+      submitForm(form_name) {
+        this.$refs[form_name].validate((valid) => {
           if (valid) {
             alert('submit!');
 
@@ -95,17 +95,17 @@
           }
         });
       },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+      resetForm(form_name) {
+        this.$refs[form_name].resetFields();
       },
       sendingEvent: function (file, xhr, formData) {
-        formData.append('userName', ruleForm.userName)
-        formData.append('userId', ruleForm.userName)
+        formData.append('user_name', ruleForm.user_name)
+        formData.append('user_id', ruleForm.user_id)
         formData.append('uuid', file.upload.uuid)
-        formData.append('desc', ruleForm.desc)
+        formData.append('comment', ruleForm.comment)
       },
       removeEvent: function (file, error, xhr) {
-        axios.delete(`http://localhost:8888/images/${file.upload.uuid}`).then(res => {
+        axios.delete(`http://localhost:8888/images/photo/${file.upload.uuid}`).then(res => {
           console.log(res.data)
         }).catch(err => {
           console.error(err)
@@ -113,11 +113,11 @@
       }
     },
     mounted () {
-      axios.get('http://localhost:8888/images').then(res => {
+      axios.get('http://localhost:8888/images/photo').then(res => {
         res.data.forEach(res => {
           let filename = res.path.replace('http://localhost:8888/', '')
           let id = filename.replace('.png', '')
-          var file = {size: res.size, name: filename, type: "image/png", upload: {uuid: id}}
+          var file = {size: res.size, name: filename, type: "image/photo/png", upload: {uuid: id}}
           this.$refs.myVueDropzone.manuallyAddFile(file, res.path)
         })
       }).catch(err => {
