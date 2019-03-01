@@ -21,9 +21,10 @@
           <el-input type="textarea" v-model="ruleForm.desc"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">Create</el-button>
+          <el-button type="primary" @click="submitForm('ruleForm')">投稿</el-button>
         </el-form-item>
       </el-form>
+
     </el-main>
     </el-container>
     <el-footer>Footer</el-footer>
@@ -78,6 +79,7 @@
         this.$refs[formName].validate((valid) => {
           if (valid) {
             alert('submit!');
+
           } else {
             console.log('error submit!!');
             return false;
@@ -88,7 +90,10 @@
         this.$refs[formName].resetFields();
       },
       sendingEvent: function (file, xhr, formData) {
+        formData.append('userName', ruleForm.userName)
+        formData.append('userId', ruleForm.userName)
         formData.append('uuid', file.upload.uuid)
+        formData.append('desc', ruleForm.desc)
       },
       removeEvent: function (file, error, xhr) {
         axios.delete(`http://localhost:8888/images/${file.upload.uuid}`).then(res => {
