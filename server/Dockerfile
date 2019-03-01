@@ -1,5 +1,5 @@
 # 開発環境
-FROM golang:1.11.5
+FROM golang:1.11
 
 WORKDIR /go/src/api
 COPY . .
