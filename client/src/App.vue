@@ -15,15 +15,19 @@ import HelloWorld from './components/HelloWorld.vue'
 import Data from './components/Data.vue'
 
 export default {
+  
   name: 'app',
+  /*
   components: {
-    HelloWorld
+    
   },
-
-  name:  'form',
+  */
+  
   components:{
+    HelloWorld,
     Data
   },
+
 }
 </script>
 

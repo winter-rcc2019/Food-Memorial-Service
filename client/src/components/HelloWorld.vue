@@ -8,10 +8,6 @@
 
 </template>
 
-
-
-
-
 <script>
 import axios from 'axios'
 import vue2Dropzone from 'vue2-dropzone'

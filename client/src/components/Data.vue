@@ -58,6 +58,10 @@
         <el-button type="primary" @click="submitForm('ruleForm')">Create</el-button>
         <el-button @click="resetForm('ruleForm')">Reset</el-button>
       </el-form-item>
+      <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"
+        v-on:vdropzone-sending="sendingEvent"
+        v-on:vdropzone-removed-file="removeEvent"
+      ></vue-dropzone>
     </el-form>
   
   </div>
@@ -65,6 +69,9 @@
 
 
 <script>
+  import axios from 'axios'
+  import vue2Dropzone from 'vue2-dropzone'
+  import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
   export default {
     name: 'Data',
@@ -103,8 +110,16 @@
           desc: [
             { required: true, message: 'Please input activity form', trigger: 'blur' }
           ]
+        },
+        dropzoneOptions: {
+          url: 'http://localhost:8888/images',
+          method: 'post',
+          addRemoveLinks: 'true'
         }
       };
+    },
+    components: {
+      vueDropzone: vue2Dropzone
     },
     methods: {
       submitForm(formName) {
@@ -119,8 +134,31 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      sendingEvent: function (file, xhr, formData) {
+        formData.append('uuid', file.upload.uuid)
+      },
+      removeEvent: function (file, error, xhr) {
+        axios.delete(`http://localhost:8888/images/${file.upload.uuid}`).then(res => {
+          console.log(res.data)
+        }).catch(err => {
+          console.error(err)
+        })
       }
-    }
+    },
+    mounted () {
+      axios.get('http://localhost:8888/images').then(res => {
+        res.data.forEach(res => {
+          let filename = res.path.replace('http://localhost:8888/', '')
+          let id = filename.replace('.png', '')
+          var file = {size: res.size, name: filename, type: "image/png", upload: {uuid: id}}
+          this.$refs.myVueDropzone.manuallyAddFile(file, res.path)
+        })
+      }).catch(err => {
+        console.error(err)
+      })
+    },
+
   }
 </script>
 
@@ -161,4 +199,13 @@
   .el-container:nth-child(7) .el-aside {
     line-height: 320px;
   }
+
+  #app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
 </style>
