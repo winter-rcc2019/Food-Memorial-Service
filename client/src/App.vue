@@ -1,11 +1,16 @@
 <template>
   <div id="app">
 
+    <!--デフォルトのやつなので、消さないで-->
+    <img alt="Vue logo" src="./assets/logo.png">
+    <HelloWorld msg="Welcome to Your Vue.js App"/> 
+
+
+
 
 
     <!--雛形構成-->  
 
-<!--
 <el-container>
   <el-header>Header</el-header>
   <el-container>
@@ -16,7 +21,7 @@
   </el-container>
 
 
-
+<!--
   <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
     <el-form-item label="Activity name" prop="name">
       <el-input v-model="ruleForm.name"></el-input>
@@ -65,12 +70,8 @@
         <el-button @click="resetForm('ruleForm')">Reset</el-button>
       </el-form-item>
     </el-form>
--->
 
-    <!--デフォルトのやつなので、消さないで-->
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/> 
-
+    -->
 
   </div>
 </template>
@@ -152,10 +153,26 @@ export default {
 
 
 
+
+
+
+
+
+<!--デフォルトのやつなので、消さないで-->
+<style>
+#app {
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+</style>
+
 <!--雛形構成-->
 
 
-<!--
 <style>
   .el-header, .el-footer {
     background-color: #B3C0D1;
@@ -190,17 +207,4 @@ export default {
   .el-container:nth-child(7) .el-aside {
     line-height: 320px;
   }
-</style>
--->
-
-<!--デフォルトのやつなので、消さないで-->
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
