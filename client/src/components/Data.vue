@@ -178,23 +178,10 @@
     margin: 20px 10px
   }
 
-  .el-row {
-    margin: 20px 0;
-    &:last-child {
-      margin-bottom: 0;
-    }
-  }
-  .el-col {
-    
-  }
-
   .el-button{
     margin: auto 10px auto;
   }
 
-  .bg-purple-light {
-    /*background: #e5e9f2;*/
-  }
   .grid-content {
     border-radius: 4px;
     min-height: 36px;
