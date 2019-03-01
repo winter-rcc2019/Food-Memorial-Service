@@ -2,31 +2,34 @@
   <div class="data">
 
   <el-container>
-    <el-header>Header</el-header>
-    <el-container>
-      <el-aside width="50%">Aside</el-aside>
-    <el-main>
-      <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="120px" class="demo-ruleForm">
-        <el-form-item label="Uer Name" prop="userName">
-          <el-input v-model="ruleForm.name"></el-input>
-        </el-form-item>
-        <el-form-item label="User ID" prop="userId">
-          <el-input v-model="ruleForm.id"></el-input>
-        </el-form-item>
-        <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"
-          v-on:vdropzone-sending="sendingEvent"
-          v-on:vdropzone-removed-file="removeEvent"
-        ></vue-dropzone>
-        <el-form-item label="Activity form" prop="desc">
-          <el-input type="textarea" v-model="ruleForm.desc"></el-input>
-        </el-form-item>
-        <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">投稿</el-button>
-        </el-form-item>
-      </el-form>
-
-    </el-main>
-    </el-container>
+    <el-header>サイト名</el-header>
+    <center>投稿画面</center>
+    <el-row>
+      <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
+      <el-col :span="8"><div class="grid-content bg-purple-light">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="10em" class="demo-ruleForm">
+          <el-form-item label="ユーザー名" prop="userName">
+            <el-input v-model="ruleForm.name"></el-input>
+          </el-form-item>
+          <el-form-item label="ユーザーID" prop="userId">
+            <el-input v-model="ruleForm.id"></el-input>
+          </el-form-item>
+          <el-form-item label="画像アップロード">
+            <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"
+              v-on:vdropzone-sending="sendingEvent"
+              v-on:vdropzone-removed-file="removeEvent"
+            ></vue-dropzone>
+          </el-form-item>
+          <el-form-item label="概要" prop="desc">
+            <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+          </el-form-item>
+          <el-form-item>
+            <el-button type="primary" @click="submitForm('ruleForm')">投稿</el-button>
+          </el-form-item>
+        </el-form>
+      </div></el-col>
+      <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
+    </el-row>
     <el-footer>Footer</el-footer>
   </el-container>
 
@@ -53,12 +56,10 @@
         },
         rules: {
           userName: [
-            { required: true, message: 'Please input Activity name', trigger: 'blur' },
-            { min: 1, max: 10, message: 'Length should be 1 to 10', trigger: 'blur' }
+            { required: true, message: 'Please input Activity name', trigger: 'blur' }
           ],
           userId: [
-            { required: true, message: 'Please input Activity name', trigger: 'blur' },
-            { min: 1, max: 10, message: 'Length should be 1 to 10', trigger: 'blur' }
+            { required: true, message: 'Please input Activity name', trigger: 'blur' }
           ],
           desc: [
             { required: true, message: 'Please input activity form', trigger: 'blur' }
@@ -123,7 +124,15 @@
 
 
 <style>
-  .el-header, .el-footer {
+  .el-header {
+    margin-bottom:  3em;
+    background-color: #B3C0D1;
+    color: #333;
+    text-align: center;
+    line-height: 60px;
+  }
+
+    .el-footer {
     background-color: #B3C0D1;
     color: #333;
     text-align: center;
@@ -157,12 +166,43 @@
     line-height: 320px;
   }
 
+  .el-form-item{
+    margin: 20px 10px
+  }
+
+  .el-row {
+    margin: 20px 0;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  .el-col {
+    
+  }
+
+  .el-button{
+    margin: 30px auto 10px auto;
+
+  }
+
+  .bg-purple-light {
+    /*background: #e5e9f2;*/
+  }
+  .grid-content {
+    border-radius: 4px;
+    min-height: 36px;
+  }
+  .row-bg {
+    padding: 10px 0;
+    background-color: #f9fafc;
+  }
+
   #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin: 60px 20px;
 }
 </style>
