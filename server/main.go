@@ -30,7 +30,15 @@ func main() {
 	r.Use(static.Serve("/", static.LocalFile("./images", true)))
 
 	r.GET("/images", handler.List)
-	r.POST("/images", handler.Upload, controller.CreateFood)
-	r.DELETE("/images/:uuid", handler.Delete, controller.DeleteFood)
+	images_post := r.Group("/images")
+	{
+		images_post.POST("/images", handler.Upload)
+		images_post.POST("/images", controller.CreateFood)
+	}
+	images_delete := r.Group("/images")
+	{
+		images_delete.DELETE("/images/:uuid", handler.Delete)
+		images_delete.DELETE("/images/:uuid", controller.DeleteFood)
+	}
 	r.Run(":8888")
 }

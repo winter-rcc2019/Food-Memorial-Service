@@ -6,6 +6,7 @@ require (
 	github.com/gin-gonic/contrib v0.0.0-20181101072842-54170a7b0b4b
 	github.com/gin-gonic/gin v1.3.0
 	github.com/go-sql-driver/mysql v1.4.1
+	github.com/go-xorm/xorm v0.7.1
 	github.com/golang/protobuf v1.2.0 // indirect
 	github.com/google/uuid v1.1.1
 	github.com/gorilla/mux v1.7.0

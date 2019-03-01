@@ -1,16 +1,18 @@
 package controller
 
 import (
-	"encoding/json"
+	//"encoding/json"
 	"fmt"
-	"io/ioutil"
+	//"io/ioutil"
 	"net/http"
+	"strconv"
 
 	"server/mysql/sql_model"
 	"server/mysql/view"
 
 	//"github.com/gorilla/mux"
 	"github.com/gin-gonic/gin"
+    "github.com/go-xorm/xorm"
 )
 
 func GetFoods(w http.ResponseWriter, r *http.Request) {
@@ -23,8 +25,8 @@ func GetFoods(w http.ResponseWriter, r *http.Request) {
 }
 
 // GetFood は path に含まれる uuid に一致する foods テーブルの レコードを返す
-func GetFood(c *gin.Context) {
-	food_UUID := c.Params("uuid")
+func GetFood(c *gin.Context, w http.ResponseWriter) {
+	food_UUID := c.Param("uuid")
 	//exist, err := sql_model.CheckFoodExist(food_UUID)
 	//if err != nil {
 		//view.RenderInternalServerError(w, fmt.Sprintf("check food exist error: %v", err))
@@ -44,22 +46,15 @@ func GetFood(c *gin.Context) {
 }
 
 func CreateFood(c *gin.Context) {
-	form, _ := c.MultipartForm()
-	//c.RequestParseForm()
+	w := c.Writer
 	var food sql_model.Food
-	comment := c.PostForm("comment")
-	body, err := ioutil.ReadAll(comment)
-	if err != nil {
-		view.RenderBadRequest(w, []string{fmt.Sprintf("read post body error: %v", err)})
-		return
-	}
-
-	err = json.Unmarshal(body, &food)
-	if err != nil {
-		view.RenderInternalServerError(w, fmt.Sprintf("json parse error: %v", err))
-		return
-	}
-
+	food.Image_ID = c.PostForm("uuid")
+	food.Comment = c.PostForm("comment")
+	food.User_Name = c.PostForm("user_name")
+	food.User_ID, _ = strconv.Atoi(c.PostForm("user_id"))
+	food.Reply = c.PostFormMap("reply")
+	engine, _ := xorm.NewEngine("mysql","root:password@/note")
+	engine.Insert(food)
 	insertID, err := sql_model.CreateFood(&food)
 	if err != nil {
 		view.RenderInternalServerError(w, fmt.Sprintf("create food error: %v", err))
@@ -71,10 +66,11 @@ func CreateFood(c *gin.Context) {
 		return
 	}
 	view.RenderFood(w, createdFood, http.StatusCreated)
-}
+	c.JSON(200, food)
+}	
 
-func PutFood(c *gin.Context) {
-	food_UUID := c.Params("uuid")
+func PutFood(c *gin.Context, w http.ResponseWriter) {
+	food_UUID := c.Param("uuid")
 	//exist, err := sql_model.CheckFoodExist(food_UUID)
 	//if err != nil {
 		//view.RenderInternalServerError(w, fmt.Sprintf("check food exist error: %v", err))
@@ -84,25 +80,25 @@ func PutFood(c *gin.Context) {
 		//view.RenderNotFound(w, "foods", food_UUID)
 		//return
 	//}
+	//body := c.PostForm("comment")
+	//body, err := ioutil.ReadAll(r.Body)
+	//if err != nil {
+		//view.RenderBadRequest(w, []string{fmt.Sprintf("read post body error: %v", err)})
+		//return
+	//}
 
-	body, err := ioutil.ReadAll(r.Body)
-	if err != nil {
-		view.RenderBadRequest(w, []string{fmt.Sprintf("read post body error: %v", err)})
-		return
-	}
+	//var food sql_model.Food
+	//err := json.Unmarshal(body, &food)
+	//if err != nil {
+		//view.RenderInternalServerError(w, fmt.Sprintf("json parse error: %v", err))
+		//return
+	//}
 
-	var food sql_model.Food
-	err = json.Unmarshal(body, &food)
-	if err != nil {
-		view.RenderInternalServerError(w, fmt.Sprintf("json parse error: %v", err))
-		return
-	}
-
-	err = sql_model.UpdateFood(&food, food_UUID)
-	if err != nil {
-		view.RenderInternalServerError(w, fmt.Sprintf("create food error: %v", err))
-		return
-	}
+	//err = sql_model.UpdateFood(&food, food_UUID)
+	//if err != nil {
+		//view.RenderInternalServerError(w, fmt.Sprintf("create food error: %v", err))
+		//return
+	//}
 	updatedFood, err := sql_model.GetFood(food_UUID)
 	if err != nil {
 		view.RenderInternalServerError(w, fmt.Sprintf("get food error: %v", err))
@@ -112,7 +108,8 @@ func PutFood(c *gin.Context) {
 }
 
 func DeleteFood(c *gin.Context) {
-	food_UUID := c.Params("uuid")
+	w := c.Writer
+	food_UUID := c.Param("uuid")
 	//exist, err := sql_model.CheckFoodExist(food_UUID)
 	//if err != nil {
 		//view.RenderInternalServerError(w, fmt.Sprintf("check food exist error: %v", err))
@@ -122,11 +119,11 @@ func DeleteFood(c *gin.Context) {
 		//view.RenderNotFound(w, "foods", food_UUID)
 		//return
 	//}
-
+	
 	err := sql_model.DeleteFood(food_UUID)
 	if err != nil {
 		view.RenderInternalServerError(w, fmt.Sprintf("create food error: %v", err))
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("id: %s is deleted!", uuid)})
+	c.JSON(http.StatusOK, gin.H{"message": fmt.Sprintf("id: %s is deleted!", food_UUID)})
 }

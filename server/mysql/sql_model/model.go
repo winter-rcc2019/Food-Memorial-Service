@@ -8,20 +8,21 @@ import (
 )
 
 type Food struct {
-	ID        	int       	`json:"id"`
-	UUID      	string    	`json:"uuid"`
-	Images		[]Images	`json:"images"`
-	Comment		string    	`json:"comment"`
-	User_Name	string    	`json:"user_name"`
-	User_ID		int			`json:"user_id"`
-	Reply    	[]string   	`json:"reply"`
+	ID        	int       			`json:"id"`
+	UUID      	string    			`json:"uuid"`
+	//Images		[]Images			`json:"images"`
+	Image_ID	string				`json:"image_id"`
+	Comment		string    			`json:"comment"`
+	User_Name	string    			`json:"user_name"`
+	User_ID		int					`json:"user_id"`
+	Reply    	map[string]string   `json:"reply"`
 	//CreatedAt 	time.Time `json:"created_at"`
 	//UpdatedAt time.Time `json:"updated_at"`
 }
 
-type Images struct {
-	Image		[]byte		`json:"image"`
-}
+//type Images struct {
+	//Image		[]byte				`json:"image"`
+//}
 
 func GetFoods() ([]*Food, error) {
 	conn, err := db.Init()
@@ -36,7 +37,7 @@ func GetFoods() ([]*Food, error) {
 	  SELECT
 		id,
 		uuid,
-		images, 
+		image_id, 
 		comment, 
 		user_name,
 		user_id,
@@ -53,7 +54,7 @@ func GetFoods() ([]*Food, error) {
 		err := rows.Scan(
 			&(food.ID),
 			&(food.UUID),
-			&(food.Images),
+			&(food.Image_ID),
 			&(food.User_Name),
 			&(food.User_ID),
 			&(food.Comment),
@@ -85,15 +86,17 @@ func GetFood(foodUUID string) (*Food, error) {
       	SELECT 
 			id,
 			uuid,
-			images, 
+			image_id, 
 			comment, 
 			user_name,
 			user_id,
 			reply, 
-			from foods`).Scan(
+			from foods
+		where uuid = ?,
+		taskUUID`).Scan(
 				&(food.ID),
 				&(food.UUID),
-				&(food.Images),
+				&(food.Image_ID),
 				&(food.Comment),
 				&(food.User_Name),
 				&(food.User_ID),
@@ -141,14 +144,14 @@ func CreateFood(food *Food) (int64, error) {
 	result, err := conn.Exec(
 		`INSERT INTO foods (
 			uuid,
-			image, 
+			image_id, 
 			user_name,
 			user_id,
 			comment,
 			reply
 			) VALUES (?, ?, ?, ?, ?) `,
 		uuid.New(),
-		food.Images,
+		food.Image_ID,
 		food.User_Name,
 		food.User_ID,
 		food.Comment,
@@ -179,7 +182,7 @@ func GetFoodByID(foodID int64) (*Food, error) {
 		SELECT 
 			id,
 			uuid,
-			images,
+			image_id,
 			user_name,
 			user_id,
 			comment,
@@ -189,7 +192,7 @@ func GetFoodByID(foodID int64) (*Food, error) {
 				foodID).Scan(
 				&(food.ID),
 				&(food.UUID),
-				&(food.Images),
+				&(food.Image_ID),
 				&(food.User_Name),
 				&(food.User_ID),
 				&(food.Comment),
@@ -210,13 +213,13 @@ func UpdateFood(food *Food, foodUUID string) error {
 	defer conn.Close()
 	_, err = conn.Exec(
 		`UPDATE foods 
-			SET images = ?, 
+			SET image = ?, 
 				user_name = ?, 
 				user_id = ?,
 				comment = ?,
 				reply = ?
 		 WHERE uuid = ?`,
-			food.Images,
+			food.Image_ID,
 			food.User_Name,
 			food.User_ID,
 			food.Comment,
