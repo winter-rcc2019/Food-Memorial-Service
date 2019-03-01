@@ -1,6 +1,5 @@
 <template>
   <div id="toptop">
-
   <el-container>
     <el-header>
       <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
