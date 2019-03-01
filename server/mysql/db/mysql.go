@@ -4,9 +4,9 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-    "string"
+    "strings"
     
-	"github.com/go-sql-driver/mysql"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func Init() (*sql.DB, error){
@@ -27,7 +27,7 @@ func getParamString(param string, defaultValue string) string {
 }
 
 func getConnectionString() string {
-    host := getParamString("MYSQL_DB_HOST", "localhost")
+    host := getParamString("MYSQL_DB_HOST", "winter-rcc_mysql_host")
     port := getParamString("MYSQL_PORT", "3306")
     user := getParamString("MYSQL_USER", "root")
     pass := getParamString("MYSQL_PASSWORD", "password")
@@ -37,9 +37,7 @@ func getConnectionString() string {
 
     if strings.Trim(dbargs, " ") != "" {
         dbargs = "?" + dbargs
-	} 
-	else 
-	{
+	} else {
         dbargs = ""
     }
     return fmt.Sprintf("%s:%s@%s([%s]:%s)/%s%s",

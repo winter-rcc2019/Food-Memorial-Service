@@ -13,6 +13,6 @@ import (
 func main() {
 	r := gin.Default()
 
-	r.GET()
+	r.GET(/)
 	log.Print(http.ListenAndServe("0.0.0.0:8080", router))
 }
