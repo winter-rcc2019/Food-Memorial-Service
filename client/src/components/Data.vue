@@ -1,41 +1,49 @@
 <template>
   <div class="data">
-
-  <el-container>
-    <el-header>サイト名</el-header>
-    <center>投稿画面</center>
-    <el-row>
-      <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
-      <el-col :span="8"><div class="grid-content bg-purple-light">
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="10em" class="demo-ruleForm">
-          <el-form-item label="ユーザー名" prop="userName">
-            <el-input v-model="ruleForm.name"></el-input>
-          </el-form-item>
-          <el-form-item label="ユーザーID" prop="userId">
-            <el-input v-model="ruleForm.id"></el-input>
-          </el-form-item>
-          <el-form-item label="画像アップロード">
-            <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"
-              v-on:vdropzone-sending="sendingEvent"
-              v-on:vdropzone-removed-file="removeEvent"
-            ></vue-dropzone>
-          </el-form-item>
-          <el-form-item label="概要" prop="desc">
-            <el-input type="textarea" v-model="ruleForm.desc"></el-input>
-          </el-form-item>
-          <el-form-item>
-            <el-button type="primary" @click="submitForm('ruleForm')">投稿</el-button>
-          </el-form-item>
-        </el-form>
-      </div></el-col>
-      <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
-    </el-row>
-    <el-footer>Footer</el-footer>
-  </el-container>
-
-
-
-  
+    <el-container>
+      <el-header>
+        <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
+        <el-col :span="8"><div class="grid-content bg-purple-light">
+          <a href="Top.vue">サイト名</a>
+        </div></el-col>
+        <el-col :span="6"><div class="grid-content bg-purple-light"></div></el-col>
+        <el-col :span="1"><div class="grid-content bg-purple-light">
+          <a href="Data.vue"><el-button icon="el-icon-edit" circle></el-button></a>
+        </div></el-col>
+        <el-col :span="1"><div class="grid-content bg-purple-light">
+          <a href="#"><el-button icon="el-icon-search" circle></el-button></a>
+        </div></el-col>
+      </el-header>
+      
+      <center>投稿画面</center>
+      <el-row>
+        <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
+        <el-col :span="8"><div class="grid-content bg-purple-light">
+          <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="10em" class="demo-ruleForm">
+            <el-form-item label="ユーザー名" prop="userName">
+              <el-input v-model="ruleForm.name"></el-input>
+            </el-form-item>
+            <el-form-item label="ユーザーID" prop="userId">
+              <el-input v-model="ruleForm.id"></el-input>
+            </el-form-item>
+            <el-form-item label="画像アップロード">
+              <vue-dropzone ref="myVueDropzone" id="dropzone" :options="dropzoneOptions"
+                v-on:vdropzone-sending="sendingEvent"
+                v-on:vdropzone-removed-file="removeEvent"
+              ></vue-dropzone>
+            </el-form-item>
+            <el-form-item label="概要" prop="desc">
+              <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('ruleForm')">投稿</el-button>
+            </el-form-item>
+          </el-form>
+        </div></el-col>
+        <el-col :span="8"><div class="grid-content bg-purple-light"></div></el-col>
+      </el-row>
+      <el-footer>Footer</el-footer>
+    </el-container>
   </div>
 </template>
 
@@ -152,7 +160,7 @@
     text-align: center;
     line-height: 160px;
   }
-  
+
   body > .el-container {
     margin-bottom: 40px;
   }
@@ -181,8 +189,7 @@
   }
 
   .el-button{
-    margin: 30px auto 10px auto;
-
+    margin: auto 10px auto;
   }
 
   .bg-purple-light {
